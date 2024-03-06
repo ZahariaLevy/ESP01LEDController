@@ -2,7 +2,7 @@
 #include <TimeLib.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
-#include "secrets.h" // defines WIFI credecials
+#include "secrets.h" // defines WI-FI credentials and location API token
 
 long delayTime = 0;
 String location;
@@ -21,7 +21,7 @@ String getTimeStr(long time);
 SunTimes fetchSunriseSunsetTimes(String location, String date);
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println("");
   Serial.println("");
   Serial.println("Starting...");
@@ -35,7 +35,7 @@ void setup() {
   // Fetch location and timezone
   WiFiClient client;
   HTTPClient httpLocation;
-  httpLocation.begin(client, "http://ipinfo.io/" + LOCATION_SERVER);
+  httpLocation.begin(client, String("http://ipinfo.io/?token=") + LOCATION_API_TOKEN);
   int httpCodeLocation = httpLocation.GET();
   Serial.println(httpLocation.getString());
 
